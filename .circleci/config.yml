@@ -14,11 +14,11 @@ jobs:
             sudo pip install pipenv 
             pipenv install
       - save_cache:
-        key: v1-deps-{{ checksum "Pipfile.lock" }}
-        paths:
-          - ".venv"
+          key: v1-deps-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
       - run:
-        name: Mirroring process
-        command: |
-          ls -ltra
-          pipenv run python3 src/github-aws-commit-mirror.py
+          name: Mirroring process
+          command: |
+            ls -ltra
+            pipenv run python3 src/github-aws-commit-mirror.py
