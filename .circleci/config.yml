@@ -20,5 +20,5 @@ jobs:
       - run:
           name: Mirroring process
           command: |
-            ls -ltra
             pipenv run python3 src/github-aws-commit-mirror.py
+            ls -ltra
