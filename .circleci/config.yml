@@ -21,7 +21,7 @@ jobs:
           name: Setup SSH for AWS CodeCommit
           command: |
             chmod +x scripts/setup-ssh.sh
-            scripts/setup-ssh.sh $AWS_DEFAULT_REGION
+            scripts/setup-ssh.sh $SSH_KEY_ID $AWS_DEFAULT_REGION
       - run:
           name: Mirror Github Repositories to AWS CodeCommit
           command: pipenv run python3 src/github-aws-commit-mirror.py
