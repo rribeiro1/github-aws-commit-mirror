@@ -36,7 +36,7 @@ for repo in github_client.get_user().get_repos():
             if is_repo_exists_on_aws(repo.name):
                 os.system('ls -ltra')
                 os.system('cd {}'.format(repo.name))
-                os.system('git remote add sync ssh://AKIAYMLLNMYWP6P7RUB3@git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo.name))
+                os.system('git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo.name))
                 os.system('git push sync --mirror')
                 os.system('cd ..')
             else:
