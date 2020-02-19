@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  mirror-github-repos-to-aws:
+  build:
     working_repositories: ~/repositories
     docker:
       - image: circleci/python:3.8
