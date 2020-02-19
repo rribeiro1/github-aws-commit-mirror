@@ -1,4 +1,3 @@
-rm -Rf ~/.ssh/config
 echo "
 Host !github.com *
   User AKIAYMLLNMYWP6P7RUB3
