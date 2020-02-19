@@ -1,10 +1,10 @@
+# Removing default config for ssh
 rm -Rf /home/circleci/.ssh/config
 
+# Creating new config for AWS Code Commit 
 echo "Host !github.com *
 User APKAYMLLNMYWO5TS2QMO
 IdentityFile /home/circleci/.ssh/id_rsa_ffeb190510d862a23307b06f1dd70fcf" >> /home/circleci/.ssh/config
 
-echo "Known hosts"
-cat /home/circleci/.ssh/known_hosts
-
-ssh-keyscan -H git-codecommit.us-east-2.amazonaws.com >> ~/.ssh/known_hosts
+# Add server as Known Host
+ssh-keyscan -H git-codecommit.eu-central-1.amazonaws.com >> ~/.ssh/known_hosts

@@ -14,7 +14,6 @@ jobs:
           command: |
             chmod +x scripts/setup-ssh.sh
             scripts/setup-ssh.sh
-            ssh git-codecommit.us-east-2.amazonaws.com
       - restore_cache:
           key: v1-deps-{{ checksum "Pipfile.lock" }}
       - run:
