@@ -33,7 +33,7 @@ workflows:
       - build
     triggers:
       - schedule:
-          cron: "0 0 * * *" # Trigger every night at 00:00
+          cron: "0 * * * *" # Trigger every hour
           filters:
             branches:
               only:
