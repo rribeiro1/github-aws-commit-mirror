@@ -3,7 +3,7 @@ jobs:
   build:
     working_repositories: ~/repositories
     docker:
-      - image: mikesir87/aws-cli
+      - image: circleci/python:3.8
     steps:
       - add_ssh_keys:
           fingerprints:
