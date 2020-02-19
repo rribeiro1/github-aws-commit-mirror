@@ -34,7 +34,7 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: "* * * * *" # use cron syntax to set the schedule
+          cron: "* * * * *" # Trigger every night at 11pm
           filters:
             branches:
               only:
