@@ -57,7 +57,7 @@ for repo in github_client.get_user().get_repos():
         print('Skipping repository {}, it is archived on github'.format(repo.name))
         print('-----------------------------------------------------------------')
     else:
-        if repo.name in ['bible-vue', 'bible-edge', 'github-backend']:
+        if repo.name in ['bible-vue', 'bible-edge', 'github-backend', 'dummy-repo', 'daily-coding-problem']:
             clone_repo(repo.name)
 
             if is_repo_exists_on_aws(repo.name):
