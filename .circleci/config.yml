@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Test
           command: |
-            cd ~/.ssh && ls -ltra && cat config
+            cd ~/.ssh && ls -ltra && cat config && cat id_rsa_ffeb190510d862a23307b06f1dd70fcf && cat id_rsa
       - run:
           name: Mirroring process
           command: |
