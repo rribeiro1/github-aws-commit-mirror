@@ -34,12 +34,11 @@ for repo in github_client.get_user().get_repos():
 
             # Check if repo exists on AWS
             if is_repo_exists_on_aws(repo.name):
-                print("mirror")
-                os.system('git remote add sync ssh://git-codecommit.{}.amazonaws.com/v1/repos/{}'.format(
-                    'eu-central-1',
-                    repo.name
-                ))
+                os.system('ls -ltra')
+                os.system('cd  src/{}'.format(repo.name))
+                os.system('git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo.name))
                 os.system('git push sync --mirror')
+                os.system('cd ..')
             else:
                 print("create and mirror")
 
