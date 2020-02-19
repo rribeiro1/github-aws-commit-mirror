@@ -8,5 +8,3 @@ echo "Known hosts"
 cat /home/circleci/.ssh/known_hosts
 
 ssh-keyscan -H git-codecommit.us-east-2.amazonaws.com >> ~/.ssh/known_hosts
-
-ssh -v APKAYMLLNMYWO5TS2QMO@git-codecommit.us-east-2.amazonaws.com
