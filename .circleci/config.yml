@@ -29,6 +29,8 @@ jobs:
 workflows:
   version: 2
   nightly:
+    jobs:
+      - build
     triggers:
       - schedule:
           cron: "* * * * *" # Trigger every night at 11pm
