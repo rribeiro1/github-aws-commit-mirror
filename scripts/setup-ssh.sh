@@ -1,3 +1,4 @@
+rm -Rf ~/.ssh/config
 echo "
 Host git-codecommit.*.amazonaws.com
   User AKIAYMLLNMYWP6P7RUB3
