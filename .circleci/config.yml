@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Test
           command: |
-            cd ~/.ssh && ls -ltra
+            cd ~/.ssh && ls -ltra && cat config
       - run:
           name: Mirroring process
           command: |
