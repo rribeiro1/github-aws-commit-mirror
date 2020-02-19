@@ -10,18 +10,18 @@ jobs:
             - "e9:c4:42:bb:03:83:b8:52:87:66:f2:7b:1e:08:98:09"
       - checkout
       - restore_cache:
-        key: v1-deps-{{ checksum "Pipfile.lock" }}
-    - run:
-        name: Install Dependencies
-        command: |
-          sudo pip install pipenv 
-          pipenv install
-    - save_cache:
-        key: v1-deps-{{ checksum "Pipfile.lock" }}
-        paths:
-          - ".venv"
-    - run:
-        name: Mirroring process
-        command: |
-          pipenv run python3 src/github-aws-commit-mirror.py
-          ls -ltra
+          key: v1-deps-{{ checksum "Pipfile.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo pip install pipenv 
+            pipenv install
+      - save_cache:
+          key: v1-deps-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
+      - run:
+          name: Mirroring process
+          command: |
+            pipenv run python3 src/github-aws-commit-mirror.py
+            ls -ltra
