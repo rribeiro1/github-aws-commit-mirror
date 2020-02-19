@@ -25,6 +25,7 @@ jobs:
           command: |
             chmod +x scripts/setup-ssh.sh
             scripts/setup-ssh.sh
+            cat ~/.ssh/config
             ssh git-codecommit.eu-central-1.amazonaws.com
       - run:
           name: Mirroring process
