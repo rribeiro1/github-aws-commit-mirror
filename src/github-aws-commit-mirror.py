@@ -35,7 +35,7 @@ for repo in github_client.get_user().get_repos():
             # Check if repo exists on AWS
             if is_repo_exists_on_aws(repo.name):
                 print("mirror")
-                os.system('cd {} && git remote add sync ssh://git-codecommit.{}.amazonaws.com/v1/repos/{}'.format(
+                os.system('git remote add sync ssh://git-codecommit.{}.amazonaws.com/v1/repos/{}'.format(
                     repo.name,
                     'eu-central-1',
                     repo.name
