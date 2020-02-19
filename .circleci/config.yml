@@ -25,3 +25,17 @@ jobs:
       - run:
           name: Mirror Github Repositories to AWS CodeCommit
           command: pipenv run python3 src/github-aws-commit-mirror.py
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly:
+    triggers:
+      - schedule:
+          cron: "* * * * *" # use cron syntax to set the schedule
+          filters:
+            branches:
+              only:
+                - master
