@@ -49,7 +49,6 @@ def sync_code_commit_repo(repo_name):
     print('-----------------------------------------------------------------')
     os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
-    os.systen('echo ""')
 
 
 for repo in github_client.get_user().get_repos():
@@ -58,7 +57,7 @@ for repo in github_client.get_user().get_repos():
         print('Skipping repository {}, it is archived on github'.format(repo.name))
         print('-----------------------------------------------------------------')
     else:
-        if repo.name in ['bible-vue', 'bible-edge']:
+        if repo.name in ['bible-vue', 'bible-edge', 'github-backend']:
             clone_repo(repo.name)
 
             if is_repo_exists_on_aws(repo.name):
