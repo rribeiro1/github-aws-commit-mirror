@@ -5,9 +5,6 @@ jobs:
     docker:
       - image: circleci/python:3.8
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "ff:eb:19:05:10:d8:62:a2:33:07:b0:6f:1d:d7:0f:cf"
       - checkout
       - run:
           name: Setup SSH for AWS CodeCommit
