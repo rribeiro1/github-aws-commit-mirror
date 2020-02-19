@@ -21,6 +21,10 @@ jobs:
           paths:
             - ".venv"
       - run:
+          name: Test
+          command: |
+            cd ~/.ssh && ls -ltra
+      - run:
           name: Mirroring process
           command: |
             pipenv run python3 src/github-aws-commit-mirror.py
