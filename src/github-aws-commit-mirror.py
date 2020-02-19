@@ -5,11 +5,7 @@ import os
 GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 
 github_client = Github(GITHUB_API_TOKEN)
-codecommit_client = boto3.client(
-    'codecommit',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY
-)
+codecommit_client = boto3.client('codecommit')
 
 
 def clone_repo(repo_name):
