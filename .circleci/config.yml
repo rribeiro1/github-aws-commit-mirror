@@ -6,8 +6,8 @@ jobs:
       - image: circleci/python:3.8
     steps:
       - add_ssh_keys:
-          - fingerprints:
-              - "e9:c4:42:bb:03:83:b8:52:87:66:f2:7b:1e:08:98:09"
+        - fingerprints:
+          - "e9:c4:42:bb:03:83:b8:52:87:66:f2:7b:1e:08:98:09"
       - checkout
       - restore_cache:
           key: v1-deps-{{ checksum "Pipfile.lock" }}
