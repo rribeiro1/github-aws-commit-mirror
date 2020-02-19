@@ -23,5 +23,5 @@ jobs:
             chmod +x scripts/setup-ssh.sh
             scripts/setup-ssh.sh $AWS_DEFAULT_REGION
       - run:
-          name: Mirroring process
+          name: Mirror Github Repositories to AWS CodeCommit
           command: pipenv run python3 src/github-aws-commit-mirror.py
