@@ -9,6 +9,11 @@ jobs:
           fingerprints:
             - "ff:eb:19:05:10:d8:62:a2:33:07:b0:6f:1d:d7:0f:cf"
       - checkout
+      - run:
+          name: Setup SSH for AWS CodeCommit
+          command: |
+            chmod +x scripts/setup-ssh.sh
+            scripts/setup-ssh.sh
       - restore_cache:
           key: v1-deps-{{ checksum "Pipfile.lock" }}
       - run:
@@ -20,11 +25,6 @@ jobs:
           key: v1-deps-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
-      - run:
-          name: Setup SSH for AWS CodeCommit
-          command: |
-            chmod +x scripts/setup-ssh.sh
-            scripts/setup-ssh.sh
       - run:
           name: Mirroring process
           command: |
