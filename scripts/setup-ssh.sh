@@ -1,6 +1,5 @@
 # Clean default SSH config
 ls -ltra ~/.ssh
-ls -ltra /home/circleci/.ssh/config
 
 #rm -Rf /home/circleci/.ssh/config
 
