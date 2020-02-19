@@ -7,7 +7,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e9:c4:42:bb:03:83:b8:52:87:66:f2:7b:1e:08:98:09"
+            - "ff:eb:19:05:10:d8:62:a2:33:07:b0:6f:1d:d7:0f:cf"
       - checkout
       - restore_cache:
           key: v1-deps-{{ checksum "Pipfile.lock" }}
