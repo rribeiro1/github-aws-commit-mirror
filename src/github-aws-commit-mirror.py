@@ -7,6 +7,16 @@ GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 github_client = Github(GITHUB_API_TOKEN)
 codecommit_client = boto3.client('codecommit')
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
 
 def clone_repo(repo_name):
     print(f"{bcolors.WARNING}-----------------------------------------------------------")
@@ -68,12 +78,3 @@ for repo in github_client.get_user().get_repos():
 
             delete_repo_local(repo.name)
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
