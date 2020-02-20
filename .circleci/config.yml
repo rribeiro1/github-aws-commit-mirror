@@ -7,16 +7,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-deps-{{ checksum "Pipfile.lock" }}
+          key: v1-dependencies-{{ checksum "Pipfile.lock" }}
       - run:
           name: Install Dependencies
           command: |
             sudo pip install pipenv
             pipenv install
       - save_cache:
-          key: v1-deps-{{ checksum "Pipfile.lock" }}
+          key: v1-dependencies-{{ checksum "Pipfile.lock" }}
           paths:
-            - ".venv"
+            - "~/.local/share/virtualenvs"
       - run:
           name: Setup SSH for AWS CodeCommit
           command: |
@@ -25,16 +25,3 @@ jobs:
       - run:
           name: Mirror Github Repositories to AWS CodeCommit
           command: pipenv run python3 src/github-aws-commit-mirror.py
-
-workflows:
-  version: 2
-  nightly:
-    jobs:
-      - build
-    triggers:
-      - schedule:
-          cron: "0 * * * *" # Trigger every hour
-          filters:
-            branches:
-              only:
-                - master
