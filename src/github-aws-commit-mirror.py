@@ -38,7 +38,7 @@ def is_repo_exists_on_aws(repo_name):
 
 
 def create_repo_code_commit(repo_name):
-    print(f"{bcolors.OKGREEN}> Creating repository {repo_name} on AWS CodeCommit {bcolors.ENDC}")
+    print(f"{bcolors.OKBLUE}> Creating repository {repo_name} on AWS CodeCommit {bcolors.ENDC}")
     codecommit_client.create_repository(
         repositoryName=repo_name,
         repositoryDescription='Backup repository for {}'.format(repo_name),
@@ -58,15 +58,14 @@ for repo in github_client.get_user().get_repos():
     if repo.archived:
         print(f"{bcolors.WARNING}> Skipping repository {repo.name}, it is archived on github {bcolors.ENDC}")
     else:
-        if repo.name in ['bible-vue', 'bible-edge', 'github-backend', 'dummy-repo', 'daily-coding-problem']:
-            print(f"{bcolors.BOLD}> Processing repository: {repo.name} {bcolors.ENDC}")
-            clone_repo(repo.name)
+        print(f"{bcolors.HEADER}> Processing repository: {repo.name} {bcolors.ENDC}")
+        clone_repo(repo.name)
 
-            if is_repo_exists_on_aws(repo.name):
-                sync_code_commit_repo(repo.name)
-            else:
-                create_repo_code_commit(repo.name)
-                sync_code_commit_repo(repo.name)
+        if is_repo_exists_on_aws(repo.name):
+            sync_code_commit_repo(repo.name)
+        else:
+            create_repo_code_commit(repo.name)
+            sync_code_commit_repo(repo.name)
 
-            delete_repo_local(repo.name)
+        delete_repo_local(repo.name)
 
