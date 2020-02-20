@@ -7,6 +7,7 @@ GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 github_client = Github(GITHUB_API_TOKEN)
 codecommit_client = boto3.client('codecommit')
 
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -19,9 +20,7 @@ class bcolors:
 
 
 def clone_repo(repo_name):
-    print(f"{bcolors.OKGREEN}----------------------------------------------------------{bcolors.ENDC}-")
-    print('Cloning repository {} to local storage'.format(repo_name))
-    print('-----------------------------------------------------------')
+    print(f"{bcolors.OKGREEN} Cloning repository {repo_name} to local storage ---------{bcolors.ENDC}")
     os.system('git clone --mirror https://github.com/rribeiro1/{}.git {}'.format(repo_name, repo_name))
 
 
