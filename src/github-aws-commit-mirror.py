@@ -16,10 +16,10 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    
+
 
 def clone_repo(repo_name):
-    print(f"{bcolors.WARNING}-----------------------------------------------------------")
+    print(f"{bcolors.OKGREEN}----------------------------------------------------------{bcolors.ENDC}-")
     print('Cloning repository {} to local storage'.format(repo_name))
     print('-----------------------------------------------------------')
     os.system('git clone --mirror https://github.com/rribeiro1/{}.git {}'.format(repo_name, repo_name))
