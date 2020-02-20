@@ -25,4 +25,3 @@ jobs:
       - run:
           name: Mirror Github Repositories to AWS CodeCommit
           command: pipenv run python3 src/github-aws-commit-mirror.py
-
