@@ -78,8 +78,11 @@ workflows:
               only:
                 - master
 ```
+
+### 2.4 Circle CI output
+
 <p align="center">
-  <img src="resources/output.png" width="500" title="Circle CI output">
+  <img src="resources/output.png" width="700" title="Circle CI output">
 </p>
 
 ### 3. References
