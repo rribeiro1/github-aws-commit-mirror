@@ -3,14 +3,14 @@
 [![CircleCI](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror.svg?style=svg)](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror)
 [![python](https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_Python_3.8_Shield_Badge.svg)]((https://www.python.org/))
 
+<p align="center">
+  <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
+</p>
+
 You can use this project to automate the replication of a source repository in Github to a repository in AWS CodeCommit, 
 it was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/) 
 however, instead of Jenkins and EC2 I am using Circle CI to create a Cronjob and executing a Python Script which fetches active repositories from an account (discard archived ones) 
 and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirror the repository.
-
-<p align="center">
-  <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
-</p>
 
 ## 1. Requirements
 - Github API Token
