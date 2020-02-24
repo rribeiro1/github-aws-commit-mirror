@@ -2,7 +2,10 @@
 
 [![CircleCI](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror.svg?style=svg)](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror)
 
-This project was created to demonstrate an approach to mirror Github repositories on AWS CodeCommit using Circle CI.
+You can use this project to automate the replication of a source repository in Github to a repository in AWS CodeCommit, 
+it was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/) 
+however, instead of Jenkins and EC2 I am using Circle CI to create a Cronjob and executing a Python Script which fetches active repositories from an account (discard archived ones) 
+and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirror the repository.
 
 <p align="center">
   <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
@@ -10,7 +13,7 @@ This project was created to demonstrate an approach to mirror Github repositorie
 
 ## 1. Requirements
 - Github API Token
-- Account on AWS and a user with right permissions to interact with AWS CodeCommit
+- An account on AWS and a user with right permissions to interact with AWS CodeCommit
 
 ## 2. Setup
 
@@ -41,7 +44,7 @@ This is the minimum permission required to make it work
 
 ### 2.2 Setup Circle CI
 
-You can fork this project and it on Circle CI, in order to make it work you must configure those environment on Circle CI:
+You can fork this project and it on Circle CI, to make it work you must configure those environment variables on Circle CI:
 
 - `AWS_ACCESS_KEY_ID` Access key from the user on AWS 
 - `AWS_SECRET_ACCESS_KEY` Secret access key from the user on AWS
