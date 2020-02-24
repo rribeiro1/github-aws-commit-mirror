@@ -1,6 +1,8 @@
 # github-aws-commit-mirror
 
-> This project shows how to mirror a Github repository into AWS CodeCommit using a schedule job on CircleCi
+[![CircleCI](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror.svg?style=svg)](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror)
+
+This project was created to demonstrate an approach to mirror Github repositories on AWS CodeCommit using Circle CI.
 
 <p align="center">
   <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
@@ -41,8 +43,36 @@ This is the minimum permission required to make it work
 
 You can fork this project and it on Circle CI, in order to make it work you must configure those environment on Circle CI:
 
-- **AWS_ACCESS_KEY_ID:** Access key from the user on AWS 
-- **AWS_SECRET_ACCESS_KEY:** Secret access key from the user on AWS
-- **SSH_KEY_ID:** [SSH key ID](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-without-cli.html#setting-up-without-cli-add-key) from the user on AWS
-- **AWS_DEFAULT_REGION:** Region on AWS where you are using CodeCommit
-- **GITHUB_API_TOKEN:** [Github API Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+- `AWS_ACCESS_KEY_ID` Access key from the user on AWS 
+- `AWS_SECRET_ACCESS_KEY` Secret access key from the user on AWS
+- `SSH_KEY_ID` [SSH key ID](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-without-cli.html#setting-up-without-cli-add-key) from the user on AWS
+- `AWS_DEFAULT_REGION` Region on AWS where you are using CodeCommit
+- `GITHUB_API_TOKEN` [Github API Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+
+### 2.3 Setup Job scheduler
+
+In the folder `.circle` you can find the Circle CI pipeline and there you can configure some as aspects of the job, such as the scheduler as well as the target branch to run the pipeline.
+
+Use the `cron` parameter to configure the schedule, [Crontab Guru](https://crontab.guru/) can help on this task. 
+
+```yaml
+workflows:
+  version: 2
+  nightly:
+    jobs:
+      - build
+    triggers:
+      - schedule:
+          cron: “0 0 * * *” # Trigger every night at 00:00
+          filters:
+            branches:
+              only:
+                - master
+```
+
+### 3. References
+
+- [Using IAM with CodeCommit: Git Credentials, SSH Keys, and AWS Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html)
+- [Add CodeCommit to Your SSH Configuration](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-without-cli.html#setting-up-without-cli-configure-client)
+- [Troubleshooting SSH Connections to AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/troubleshooting-ssh.html)
+- [Using Identity-Based Policies (IAM Policies) for CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html)
