@@ -1,6 +1,7 @@
-# github-aws-commit-mirror
+# github-aws-codecommit-mirror
 
 [![CircleCI](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror.svg?style=svg)](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror)
+[![python](https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_Python_3.8_Shield_Badge.svg)]((https://www.python.org/))
 
 You can use this project to automate the replication of a source repository in Github to a repository in AWS CodeCommit, 
 it was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/) 
