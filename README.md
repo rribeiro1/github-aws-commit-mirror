@@ -3,7 +3,7 @@
 > This project shows how to mirror a Github repository into AWS CodeCommit using a schedule job on CircleCi
 
 <p align="center">
-  <img src="resources/logo.png" width="350" title="Github AWS CodeCommit Mirror">
+  <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
 </p>
 
 ## 1. Requirements
