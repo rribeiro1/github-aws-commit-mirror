@@ -79,11 +79,22 @@ workflows:
                 - master
 ```
 
-### 2.4 Circle CI output
+> Circle CI's output
 
-<p align="center">
-  <img src="resources/output.png" width="700" title="Circle CI output">
-</p>
+```bash
+...
+> Processing repository: spring-tdd-experiments
+--> Cloning repository spring-tdd-experiments to local storage 
+Cloning into bare repository 'spring-tdd-experiments'...
+remote: Enumerating objects: 51, done.
+Receiving objects: 100% (51/51), 9.90 KiB | 9.90 MiB/s, done.
+Resolving deltas: 100% (4/4), done.
+remote: Total 51 (delta 0), reused 0 (delta 0), pack-reused 51        
+--> Pushing changes from repository spring-tdd-experiments to AWS CodeCommit 
+Everything up-to-date
+--> Deleting repository spring-tdd-experiments from local storage 
+...
+```
 
 ### 3. References
 
