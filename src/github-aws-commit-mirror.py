@@ -68,4 +68,3 @@ for repo in github_client.get_user().get_repos():
             sync_code_commit_repo(repo.name)
 
         delete_repo_local(repo.name)
-
