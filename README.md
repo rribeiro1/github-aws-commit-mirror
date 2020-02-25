@@ -79,9 +79,9 @@ workflows:
                 - master
 ```
 
-> Circle CI's output
+### 2.4 Output
 
-```bash
+```
 ...
 > Processing repository: spring-tdd-experiments
 --> Cloning repository spring-tdd-experiments to local storage 
