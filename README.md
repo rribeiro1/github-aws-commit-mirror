@@ -50,7 +50,8 @@ This is the minimum permission required to make it work
 
 ### 2.2 Setup Circle CI
 
-You can fork this project and it on Circle CI, to make it work you must configure those environment variables on Circle CI:
+1. Fork this project
+2. Enable it on Circle CI and configure the environment variables as described below:
 
 - `AWS_ACCESS_KEY_ID` Access key from the user on AWS 
 - `AWS_SECRET_ACCESS_KEY` Secret access key from the user on AWS
