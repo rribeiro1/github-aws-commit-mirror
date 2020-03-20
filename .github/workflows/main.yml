@@ -4,7 +4,8 @@ jobs:
   mirroring:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v1
     - uses: pixta-dev/repository-mirroring-action@v1
       with:
         target_repo_url: ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/github-aws-commit-mirror
