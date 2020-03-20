@@ -17,9 +17,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    - uses: wearerequired/git-mirror-action@master
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - uses: pixta-dev/repository-mirroring-action@v1
       with:
-        source-repo: 'git@github.com:rribeiro1/github-aws-commit-mirror.git'
-        destination-repo: 'ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/github-aws-commit-mirror'
+        target_repo_url: ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/github-aws-commit-mirror
+        ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+        ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }} # <-- (for codecommit) you need to specify ssh-key-id as ssh username.
