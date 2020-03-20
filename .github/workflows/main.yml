@@ -4,6 +4,7 @@ jobs:
   mirroring:
     runs-on: ubuntu-18.04
     steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v1
     - uses: pixta-dev/repository-mirroring-action@v1
       with:
