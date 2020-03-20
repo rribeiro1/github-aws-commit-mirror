@@ -2,7 +2,7 @@ name: Mirroring
 on: [push, delete]
 jobs:
   mirroring:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
     - uses: pixta-dev/repository-mirroring-action@v1
