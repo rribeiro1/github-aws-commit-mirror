@@ -27,8 +27,6 @@ class bcolors:
 
 def clone_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Cloning repository {repo_name} to local storage {bcolors.ENDC}")
-    # string = ('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
-    # print(string)
     os.system('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
 
 
