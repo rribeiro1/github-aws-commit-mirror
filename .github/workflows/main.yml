@@ -47,7 +47,6 @@ jobs:
         mkdir -p ~/work/_temp/_github_home/
         cp -ar ~/.ssh ~/work/_temp/_github_home/
 
-    # - uses: actions/checkout@v2
     - name: Mirror Github Repositories to AWS CodeCommit
       run: |
         git config --global url."git@github.com:".insteadOf "https://github.com/"
