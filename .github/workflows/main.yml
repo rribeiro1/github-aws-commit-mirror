@@ -53,7 +53,6 @@ jobs:
       with:
         python-version: '3.8'
 
-
     - name: Install Dependencies
       run: |
         sudo pip3 install pipenv
