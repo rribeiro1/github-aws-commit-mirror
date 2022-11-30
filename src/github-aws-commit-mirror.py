@@ -1,6 +1,7 @@
 import os
 import boto3
 from github import Github
+from github import GithubException
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -53,23 +54,31 @@ def create_repo_code_commit(repo_name):
     )
 
 
-def sync_code_commit_repo(repo_name):
+def sync_code_commit_repo(repo_name,branch_name):
     print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
     os.system('cd {} && git remote add sync ssh://{}@git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, AWS_SSH_KEY_ID, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
+    codecommit_client.update_default_branch(
+        repositoryName=repo_name,
+        defaultBranchName=branch_name
+    )
 
 
 for repo in github_client.get_user().get_repos():
-    if repo.archived:
-        print(f"{bcolors.WARNING}> Skipping repository {repo.name}, it is archived on github {bcolors.ENDC}")
-    else:
+    try:
         print(f"{bcolors.HEADER}> Processing repository: {repo.name} {bcolors.ENDC}")
+        repo.get_contents("/")
+        branch_name = repo.default_branch
         clone_repo(repo.name)
+    except GithubException as e:
+        print(e.args[1]['message']) # output: This repository is empty.
+        continue
 
-        if is_repo_exists_on_aws(repo.name):
-            sync_code_commit_repo(repo.name)
-        else:
-            create_repo_code_commit(repo.name)
-            sync_code_commit_repo(repo.name)
+    if is_repo_exists_on_aws(repo.name):
+        sync_code_commit_repo(repo.name,branch_name)
+    else:
+        create_repo_code_commit(repo.name)
+        sync_code_commit_repo(repo.name,branch_name)
 
-        delete_repo_local(repo.name)
+    delete_repo_local(repo.name)
+
