@@ -1,11 +1,17 @@
-from github import Github
-import boto3
 import os
+import boto3
+from github import Github
 
-GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+GITHUB_API_TOKEN = os.getenv('GH_API_TOKEN')
+AWS_SSH_KEY_ID = os.getenv('AWS_SSH_KEY_ID')
 
 github_client = Github(GITHUB_API_TOKEN)
-codecommit_client = boto3.client('codecommit')
+
+codecommit_client = boto3.client('codecommit', region_name='us-east-1',
+                                aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 
 class bcolors:
@@ -21,13 +27,12 @@ class bcolors:
 
 def clone_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Cloning repository {repo_name} to local storage {bcolors.ENDC}")
-    os.system('git clone --mirror https://github.com/rribeiro1/{}.git {}'.format(repo_name, repo_name))
+    os.system('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
 
 
 def delete_repo_local(repo_name):
     print(f"{bcolors.OKGREEN}--> Deleting repository {repo_name} from local storage {bcolors.ENDC}")
     os.system('rm -Rf {}'.format(repo_name))
-
 
 def is_repo_exists_on_aws(repo_name):
     try:
@@ -50,7 +55,7 @@ def create_repo_code_commit(repo_name):
 
 def sync_code_commit_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
-    os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
+    os.system('cd {} && git remote add sync ssh://{}@git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, AWS_SSH_KEY_ID, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
 
 

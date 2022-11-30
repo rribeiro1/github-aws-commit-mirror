@@ -2,20 +2,54 @@ name: AWS CodeCommit Mirror
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
-on: [push, delete]
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    #5:30 AM Sunday
+    - cron: "30 5 * * 0"
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+#Enviroment Variables
+env:
+  GH_API_TOKEN: ${{ secrets.GH_INTEGRATIONS_AWS_COMMIT_MIRROR }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SSH_KEY_ID: ${{ secrets.AWS_SSH_KEY_ID }}
+
 jobs:
-  # This workflow contains a single job called "mirroring"
   mirroring:
-    # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v1
-    - uses: pixta-dev/repository-mirroring-action@v1
+    - uses: actions/checkout@v2
+
+    - name: Set up python 3.8
+      uses: actions/setup-python@v2
       with:
-        target_repo_url: ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/github-aws-commit-mirror
-        ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
-        ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
+        python-version: 3.8
+
+    - name: Install pipenv & Dependencies
+      run: |
+        pip install pipenv
+        pipenv install
+
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+        name: id_rsa
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        if_key_exists: replace
+
+    - name: Copy SSH directory to home
+      run: |
+        mkdir -p ~/work/_temp/_github_home/
+        cp -ar ~/.ssh ~/work/_temp/_github_home/
+
+    # - uses: actions/checkout@v2
+    - name: Mirror Github Repositories to AWS CodeCommit
+      run: |
+        git config --global url."git@github.com:".insteadOf "https://github.com/"
+        pipenv run python3 src/github-aws-commit-mirror.py
 
