@@ -14,9 +14,9 @@ You can use this project to automate the replication of a source repository in G
 - One-off task to migrate all active repositories to AWS CodeCommit
 - Continuous backup process to mirror Github repos to AWS CodeCommit
 
-It was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/) 
-however, instead of Jenkins and EC2 I am using Circle CI to create a Cronjob and executing a Python Script which fetches active repositories from an account (discard archived ones) 
-and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirror the repository.
+It was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/)
+however, instead of Jenkins and EC2 we are using Github Actions to create a Cronjob and executing a Python Script which fetches active repositories from an account (discard archived ones)
+and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirrors the repository.
 
 ## 1. Requirements
 - Github API Token
@@ -31,7 +31,7 @@ and for each repository, it creates the same repository in CodeCommit (if it doe
 3. Create a policy e.g `AwsCodeCommitMirroring` and attach this policy to the group `Devops`
 
 This is the minimum permission required to make it work
-``` json 
+``` json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -49,36 +49,32 @@ This is the minimum permission required to make it work
 }
 ```
 
-### 2.2 Setup Circle CI
+### 2.2 Setup Enviroment Variables
 
 1. Fork this project
-2. Enable it on Circle CI and configure the environment variables as described below:
+2. Configure the environment variables as described below:
 
-- `AWS_ACCESS_KEY_ID` Access key from the user on AWS 
+- `AWS_ACCESS_KEY_ID` Access key from the user on AWS
 - `AWS_SECRET_ACCESS_KEY` Secret access key from the user on AWS
-- `SSH_KEY_ID` [SSH key ID](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-without-cli.html#setting-up-without-cli-add-key) from the user on AWS
+- `AWS_SSH_KEY_ID` [AWS SSH key ID](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-without-cli.html#setting-up-without-cli-add-key) from the user on AWS
 - `AWS_DEFAULT_REGION` Region on AWS where you are using CodeCommit
-- `GITHUB_API_TOKEN` [Github API Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+- `GH_API_TOKEN` [Github API Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 
 ### 2.3 Setup Job scheduler
 
-In the folder `.circle` you can find the Circle CI pipeline and there you can configure some as aspects of the job, such as the scheduler as well as the target branch to run the pipeline.
+At the top of the `main.yml` file you can configure some as aspects of the job, such as the scheduler as well as the target branch to run the pipeline.
 
-Use the `cron` parameter to configure the schedule, [Crontab Guru](https://crontab.guru/) can help on this task. 
+Use the `cron` parameter to configure the schedule, [Crontab Guru](https://crontab.guru/) can help on this task.
 
 ```yaml
-workflows:
-  version: 2
-  nightly:
-    jobs:
-      - build
-    triggers:
-      - schedule:
-          cron: “0 0 * * *” # Trigger every night at 00:00
-          filters:
-            branches:
-              only:
-                - master
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    #5:30 AM Sunday
+    - cron: "30 5 * * 0"
 ```
 
 ### 2.4 Output
@@ -86,15 +82,15 @@ workflows:
 ```
 ...
 > Processing repository: spring-tdd-experiments
---> Cloning repository spring-tdd-experiments to local storage 
+--> Cloning repository spring-tdd-experiments to local storage
 Cloning into bare repository 'spring-tdd-experiments'...
 remote: Enumerating objects: 51, done.
 Receiving objects: 100% (51/51), 9.90 KiB | 9.90 MiB/s, done.
 Resolving deltas: 100% (4/4), done.
-remote: Total 51 (delta 0), reused 0 (delta 0), pack-reused 51        
---> Pushing changes from repository spring-tdd-experiments to AWS CodeCommit 
+remote: Total 51 (delta 0), reused 0 (delta 0), pack-reused 51
+--> Pushing changes from repository spring-tdd-experiments to AWS CodeCommit
 Everything up-to-date
---> Deleting repository spring-tdd-experiments from local storage 
+--> Deleting repository spring-tdd-experiments from local storage
 ...
 ```
 
