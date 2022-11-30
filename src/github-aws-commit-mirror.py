@@ -1,11 +1,17 @@
-from github import Github
-import boto3
 import os
+import boto3
+from github import Github
 
-GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+GITHUB_API_TOKEN = os.getenv('GH_API_TOKEN')
+# print("Github token: " + GITHUB_API_TOKEN)
 
 github_client = Github(GITHUB_API_TOKEN)
-codecommit_client = boto3.client('codecommit')
+
+codecommit_client = boto3.client('codecommit', region_name='us-east-1',
+                                aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 
 class bcolors:
@@ -53,6 +59,8 @@ def sync_code_commit_repo(repo_name):
     os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
 
+repo_list = github_client.get_user().get_repos()
+print("Number of repositories: " + str(len(repo_list)))
 
 for repo in github_client.get_user().get_repos():
     if repo.archived:

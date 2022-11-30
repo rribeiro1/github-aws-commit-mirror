@@ -4,6 +4,12 @@ name: AWS CodeCommit Mirror
 # events but only for the master branch
 on: [push, delete]
 
+#enviroment variables
+env:
+  GH_API_TOKEN: ${{ secrets.GH_INTEGRATIONS_AWS_COMMIT_MIRROR }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "mirroring"
@@ -11,11 +17,71 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     steps:
+    - uses: actions/checkout@v2
+    - name: Set up python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install pipenv
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+
+    - name: Cache pipenv
+      id: cache-pipenv
+      uses: actions/cache@v2
+      with:
+        path: api/.venv
+        key: ${{ runner.os }}-3.8-pipenv-${{ hashFiles('api/Pipfile.lock') }}
+
+    - name: Install dependencies
+      working-directory: /home/runner/work/github-aws-commit-mirror/github-aws-commit-mirror/
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      env:
+        PIPENV_VENV_IN_PROJECT: 1
+      run: |
+        pipenv install --dev
+
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+        name: id_rsa
+        known_hosts: unnecessary
+        if_key_exists: replace
+
+    - name: Copy SSH keys to home directory
+      run: |
+        mkdir -p ~/work/_temp/_github_home/
+        cp -ar ~/.ssh ~/work/_temp/_github_home/
+
+    # - name: Set up python 3.8
+    # - uses: actions/checkout@v3
+    # - uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.8'
+
+
+    - name: Install Dependencies
+      run: |
+        sudo pip3 install pipenv
+        pipenv install PyGithub==1.46
+        pipenv install boto3==1.10.41
+        pipenv install backports.weakref
+        pipenv install backports.functools_lru_cache
+        pipenv install backports.shutil_get_terminal_size
+
+    - uses: actions/checkout@v2
+    - name: Mirror Github Repositories to AWS CodeCommit
+      run: |
+        git config --global url."git@github.com:".insteadOf "https://github.com/"
+        pipenv run python3 src/github-aws-commit-mirror.py
+
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v1
-    - uses: pixta-dev/repository-mirroring-action@v1
-      with:
-        target_repo_url: ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/github-aws-commit-mirror
-        ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
-        ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
-
+    # - uses: pixta-dev/repository-mirroring-action@v1
+    #   with:
+    #     target_repo_url: ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/testrepo
+    #     ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+    #     ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
