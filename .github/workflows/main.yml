@@ -20,16 +20,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+
     - name: install pipenv
       run: |
         python -m pip install --upgrade pip
         pip install pipenv
+
     - name: cache pipenv
       id: cache-pipenv
       uses: actions/cache@v2
       with:
         path: api/.venv
         key: ${{ runner.os }}-3.8-pipenv-${{ hashFiles('api/Pipfile.lock') }}
+
     - name: install dependencies
       working-directory: /home/runner/work/github-aws-commit-mirror/github-aws-commit-mirror/
       if: steps.cache-pipenv.outputs.cache-hit != 'true'
@@ -37,6 +40,7 @@ jobs:
         PIPENV_VENV_IN_PROJECT: 1
       run: |
         pipenv install --dev
+        
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
       with:

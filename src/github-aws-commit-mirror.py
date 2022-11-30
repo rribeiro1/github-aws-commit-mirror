@@ -59,7 +59,7 @@ def create_repo_code_commit(repo_name):
 
 def sync_code_commit_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
-    os.system('cd {} && git remote add sync ssh://{}git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, AWS_SSH_KEY_ID, repo_name))
+    os.system('cd {} && git remote add sync ssh://{}@git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, AWS_SSH_KEY_ID, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
     print("Done Syncing")
 
