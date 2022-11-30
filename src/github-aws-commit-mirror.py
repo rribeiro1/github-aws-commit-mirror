@@ -27,7 +27,7 @@ class bcolors:
 
 def clone_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Cloning repository {repo_name} to local storage {bcolors.ENDC}")
-    os.system('git clone --mirror https://github.com/rribeiro1/{}.git {}'.format(repo_name, repo_name))
+    os.system('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
 
 
 def delete_repo_local(repo_name):
@@ -59,8 +59,8 @@ def sync_code_commit_repo(repo_name):
     os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
 
-# repo_list = github_client.get_user().get_repos()
-# print("Number of repositories: " + str(repo_list.totalCount))
+repo_list = github_client.get_user().get_repos()
+print("Number of repositories: " + str(repo_list.totalCount))
 
 for repo in github_client.get_user().get_repos():
     if repo.archived:
