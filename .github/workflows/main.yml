@@ -8,7 +8,7 @@ name: AWS CodeCommit Mirror
     branches:
       - master
   schedule:
-    #5:30 AM Sunday
+    #Every 15 minutes
     - cron: "*/15 * * * *"
 
 #Enviroment Variables
