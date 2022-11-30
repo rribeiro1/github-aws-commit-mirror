@@ -5,7 +5,6 @@ from github import Github
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 GITHUB_API_TOKEN = os.getenv('GH_API_TOKEN')
-# print("Github token: " + GITHUB_API_TOKEN)
 
 github_client = Github(GITHUB_API_TOKEN)
 
@@ -59,7 +58,7 @@ def create_repo_code_commit(repo_name):
 
 def sync_code_commit_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
-    os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
+    os.system('cd {} && git remote add sync ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
     print("Done Syncing")
 
