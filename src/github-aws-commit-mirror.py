@@ -60,7 +60,7 @@ def sync_code_commit_repo(repo_name):
     os.system('cd {} && git push sync --mirror'.format(repo.name))
 
 repo_list = github_client.get_user().get_repos()
-print("Number of repositories: " + str(len(repo_list)))
+print("Number of repositories: " + str(repo_list.totalCount))
 
 for repo in github_client.get_user().get_repos():
     if repo.archived:
