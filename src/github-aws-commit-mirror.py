@@ -61,6 +61,7 @@ def sync_code_commit_repo(repo_name):
     print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
     os.system('cd {} && git remote add sync ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/{}'.format(repo_name, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
+    print("Done Syncing")
 
 # repo_list = github_client.get_user().get_repos()
 # print("Number of repositories: " + str(repo_list.totalCount))
