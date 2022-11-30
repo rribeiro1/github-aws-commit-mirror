@@ -2,7 +2,14 @@ name: AWS CodeCommit Mirror
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
-on: [push, delete]
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    #5:30 AM Sunday
+    - cron: "30 5 * * 0"
 
 #Enviroment Variables
 env:
@@ -40,7 +47,7 @@ jobs:
         mkdir -p ~/work/_temp/_github_home/
         cp -ar ~/.ssh ~/work/_temp/_github_home/
 
-    - uses: actions/checkout@v2
+    # - uses: actions/checkout@v2
     - name: Mirror Github Repositories to AWS CodeCommit
       run: |
         git config --global url."git@github.com:".insteadOf "https://github.com/"
