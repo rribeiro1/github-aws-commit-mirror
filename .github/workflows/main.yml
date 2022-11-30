@@ -32,20 +32,20 @@ jobs:
         pipenv install backports.functools_lru_cache
         pipenv install backports.shutil_get_terminal_size
 
-    - name: cache pipenv
-      id: cache-pipenv
-      uses: actions/cache@v2
-      with:
-        path: api/.venv
-        key: ${{ runner.os }}-3.8-pipenv-${{ hashFiles('api/Pipfile.lock') }}
+    # - name: cache pipenv
+    #   id: cache-pipenv
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: api/.venv
+    #     key: ${{ runner.os }}-3.8-pipenv-${{ hashFiles('api/Pipfile.lock') }}
 
-    - name: install dependencies
-      working-directory: /home/runner/work/github-aws-commit-mirror/github-aws-commit-mirror/
-      if: steps.cache-pipenv.outputs.cache-hit != 'true'
-      env:
-        PIPENV_VENV_IN_PROJECT: 1
-      run: |
-        pipenv install --dev
+    # - name: install dependencies
+    #   working-directory: /home/runner/work/github-aws-commit-mirror/github-aws-commit-mirror/
+    #   if: steps.cache-pipenv.outputs.cache-hit != 'true'
+    #   env:
+    #     PIPENV_VENV_IN_PROJECT: 1
+    #   run: |
+    #     pipenv install --dev
 
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
