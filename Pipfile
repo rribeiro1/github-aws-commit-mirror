@@ -6,6 +6,9 @@ verify_ssl = true
 [packages]
 PyGithub = "==1.46"
 boto3 = "==1.10.41"
+backports.weakref
+backports.functools_lru_cache
+ackports.shutil_get_terminal_size
 
 [requires]
 python_version = "3.8"
