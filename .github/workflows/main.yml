@@ -9,7 +9,7 @@ name: AWS CodeCommit Mirror
       - master
   schedule:
     #5:30 AM Sunday
-    - cron: "30 5 * * 0"
+    - cron: "*/15 * * * *"
 
 #Enviroment Variables
 env:
