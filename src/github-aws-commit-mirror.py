@@ -30,6 +30,7 @@ def clone_repo(repo_name):
     # string = ('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
     # print(string)
     os.system('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
+    print("Clone Finished")
 
 
 def delete_repo_local(repo_name):
