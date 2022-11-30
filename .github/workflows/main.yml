@@ -26,11 +26,6 @@ jobs:
       run: |
         pip install pipenv
         pipenv install
-        # pipenv install PyGithub==1.46
-        # pipenv install boto3==1.10.41
-        # pipenv install backports.weakref
-        # pipenv install backports.functools_lru_cache
-        # pipenv install backports.shutil_get_terminal_size
 
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
