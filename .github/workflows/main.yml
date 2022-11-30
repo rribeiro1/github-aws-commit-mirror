@@ -41,7 +41,7 @@ jobs:
       with:
         key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
         name: id_rsa
-        known_hosts: unnecessary
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
         if_key_exists: replace
 
     - name: copy to home
@@ -72,11 +72,7 @@ jobs:
       run: |
         git config --global url."git@github.com:".insteadOf "https://github.com/"
         pipenv run python3 src/github-aws-commit-mirror.py
-    # - name: Debug
-    #   run: |
-    #     pwd
-    #     ls ~/.ssh
-    #     cat /home/runner/.ssh/id_rsa
+
 
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     # - uses: actions/checkout@v1
