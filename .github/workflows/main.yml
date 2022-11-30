@@ -4,7 +4,7 @@ name: AWS CodeCommit Mirror
 # events but only for the master branch
 on: [push, delete]
 env:
-  GH_API_TOKEN: ${{ secrets.GH_TOKEN }}
+  GH_API_TOKEN: ${{ secrets.GH_INTEGRATIONS_AWS_COMMIT_MIRROR }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -80,9 +80,9 @@ jobs:
     #     cat /home/runner/.ssh/id_rsa
 
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v1
-    - uses: pixta-dev/repository-mirroring-action@v1
-      with:
-        target_repo_url: ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/testrepo
-        ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
-        ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
+    # - uses: actions/checkout@v1
+    # - uses: pixta-dev/repository-mirroring-action@v1
+    #   with:
+    #     target_repo_url: ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/testrepo
+    #     ssh_private_key: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+    #     ssh_username: ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
