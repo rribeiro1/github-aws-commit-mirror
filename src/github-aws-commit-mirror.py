@@ -87,9 +87,3 @@ for repo in github_client.get_user().get_repos():
         sync_code_commit_repo(repo.name,branch_name)
 
     delete_repo_local(repo.name)
-
-#TODO fix output streams
-# remove readme circle ci references + cleanup
-# remove readme image
-# point links at top of readme to our repo
-# add in that it runs every 15 minutes

@@ -70,8 +70,8 @@ Use the `cron` parameter to configure the schedule, [Crontab Guru](https://cront
     branches:
       - master
   schedule:
-    #5:30 AM Sunday
-    - cron: "30 5 * * 0"
+    #Every 15 minutes
+    - cron: "*/15 * * * *"
 ```
 
 ### 2.4 Output
