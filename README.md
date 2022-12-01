@@ -1,13 +1,8 @@
 # github-aws-codecommit-mirror
 
-[![CircleCI](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror.svg?style=svg)](https://circleci.com/gh/rribeiro1/github-aws-commit-mirror)
 [![python](https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_Python_3.8_Shield_Badge.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![AWS CodeCommit Mirror](https://github.com/rribeiro1/github-aws-commit-mirror/workflows/AWS%20CodeCommit%20Mirror/badge.svg?branch=master)
-
-<p align="center">
-  <img src="resources/logo.png" width="450" title="Github AWS CodeCommit Mirror">
-</p>
+![AWS CodeCommit Mirror](https://github.com/PedigreeTechnologies/github-aws-commit-mirror/workflows/AWS%20CodeCommit%20Mirror/badge.svg?branch=master)
 
 You can use this project to automate the replication of a source repository in Github to a repository in AWS CodeCommit, and it can be useful for:
 
@@ -15,7 +10,7 @@ You can use this project to automate the replication of a source repository in G
 - Continuous backup process to mirror Github repos to AWS CodeCommit
 
 It was inspired on [this AWS article](https://aws.amazon.com/pt/blogs/devops/replicating-and-automating-sync-ups-for-a-repository-with-aws-codecommit/)
-however, instead of Jenkins and EC2 we are using Github Actions to create a Cronjob and executing a Python Script which fetches active repositories from an account (discard archived ones)
+however, instead of Jenkins and EC2 we are using Github Actions to create a Cronjob and executing a Python Script which fetches all repositories from an account
 and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirrors the repository.
 
 ## 1. Requirements
@@ -27,7 +22,7 @@ and for each repository, it creates the same repository in CodeCommit (if it doe
 ### 2.1 Setup AWS account
 
 1. Create a group on AWS e.g `Devops`
-2. Create a user on AWS to use on CircleCI e.g `circle-ci` and add to the group `Devops`
+2. Create a user on AWS  e.g `codecommit_user` and add to the group `Devops`
 3. Create a policy e.g `AwsCodeCommitMirroring` and attach this policy to the group `Devops`
 
 This is the minimum permission required to make it work
@@ -36,13 +31,15 @@ This is the minimum permission required to make it work
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
             "Action": [
                 "codecommit:TagResource",
                 "codecommit:GetRepository",
+                "codecommit:CreateRepository",
                 "codecommit:GitPush",
-                "codecommit:CreateRepository"
+                "codecommit:UpdateDefaultBranch"
             ],
-            "Effect": "Allow",
             "Resource": "*"
         }
     ]

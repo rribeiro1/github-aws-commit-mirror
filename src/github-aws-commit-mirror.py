@@ -27,12 +27,12 @@ class bcolors:
 
 
 def clone_repo(repo_name):
-    print(f"{bcolors.OKGREEN}--> Cloning repository {repo_name} to local storage {bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}--> Cloning repository {repo_name} to local storage {bcolors.ENDC}", flush=True)
     os.system('git clone --mirror https://github.com/PedigreeTechnologies/{}.git {}'.format(repo_name, repo_name))
 
 
 def delete_repo_local(repo_name):
-    print(f"{bcolors.OKGREEN}--> Deleting repository {repo_name} from local storage {bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}--> Deleting repository {repo_name} from local storage {bcolors.ENDC}", flush=True)
     os.system('rm -Rf {}'.format(repo_name))
 
 def is_repo_exists_on_aws(repo_name):
@@ -44,7 +44,7 @@ def is_repo_exists_on_aws(repo_name):
 
 
 def create_repo_code_commit(repo_name):
-    print(f"{bcolors.OKBLUE}--> Creating repository {repo_name} on AWS CodeCommit {bcolors.ENDC}")
+    print(f"{bcolors.OKBLUE}--> Creating repository {repo_name} on AWS CodeCommit {bcolors.ENDC}", flush=True)
     codecommit_client.create_repository(
         repositoryName=repo_name,
         repositoryDescription='Backup repository for {}'.format(repo_name),
@@ -55,23 +55,29 @@ def create_repo_code_commit(repo_name):
 
 
 def sync_code_commit_repo(repo_name,branch_name):
-    print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}--> Pushing changes from repository {repo_name} to AWS CodeCommit {bcolors.ENDC}", flush=True)
     os.system('cd {} && git remote add sync ssh://{}@git-codecommit.us-east-1.amazonaws.com/v1/repos/{}'.format(repo_name, AWS_SSH_KEY_ID, repo_name))
     os.system('cd {} && git push sync --mirror'.format(repo.name))
-    codecommit_client.update_default_branch(
-        repositoryName=repo_name,
-        defaultBranchName=branch_name
+    response = codecommit_client.get_repository(
+    repositoryName=repo_name
     )
+    current_branch_name = response['repositoryMetadata']['defaultBranch']
+    if current_branch_name != branch_name:
+        codecommit_client.update_default_branch(
+            repositoryName=repo_name,
+            defaultBranchName=branch_name
+        )
+        print("Updating Default Branch To: " + branch_name)
 
 
 for repo in github_client.get_user().get_repos():
     try:
-        print(f"{bcolors.HEADER}> Processing repository: {repo.name} {bcolors.ENDC}")
+        print(f"{bcolors.HEADER}> Processing repository: {repo.name} {bcolors.ENDC}", flush=True)
         repo.get_contents("/")
         branch_name = repo.default_branch
         clone_repo(repo.name)
     except GithubException as e:
-        print(e.args[1]['message']) # output: This repository is empty.
+        print(e.args[1]['message'], flush=True) # output: This repository is empty.
         continue
 
     if is_repo_exists_on_aws(repo.name):
@@ -82,3 +88,8 @@ for repo in github_client.get_user().get_repos():
 
     delete_repo_local(repo.name)
 
+#TODO fix output streams
+# remove readme circle ci references + cleanup
+# remove readme image
+# point links at top of readme to our repo
+# add in that it runs every 15 minutes
