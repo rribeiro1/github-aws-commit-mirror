@@ -50,5 +50,5 @@ jobs:
     - name: Mirror Github Repositories to AWS CodeCommit
       run: |
         git config --global url."git@github.com:".insteadOf "https://github.com/"
-        pipenv run python3 src/github-aws-commit-mirror.py
+        pipenv run python3 src/github_aws_commit_mirror.py
 

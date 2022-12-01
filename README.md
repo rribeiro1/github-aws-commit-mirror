@@ -1,8 +1,10 @@
-# github-aws-codecommit-mirror
+# github-aws-commit-mirror
 
 [![python](https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_Python_3.8_Shield_Badge.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![AWS CodeCommit Mirror](https://github.com/PedigreeTechnologies/github-aws-commit-mirror/workflows/AWS%20CodeCommit%20Mirror/badge.svg?branch=master)
+
+Credit for the original work goes to [@rribeiro1](https://github.com/rribeiro1)
 
 You can use this project to automate the replication of a source repository in Github to a repository in AWS CodeCommit, and it can be useful for:
 
@@ -14,6 +16,7 @@ however, instead of Jenkins and EC2 we are using Github Actions to create a Cron
 and for each repository, it creates the same repository in CodeCommit (if it does not exist) and mirrors the repository.
 
 ## 1. Requirements
+
 - Github API Token
 - An account on AWS and a user with right permissions to interact with AWS CodeCommit
 
@@ -26,6 +29,7 @@ and for each repository, it creates the same repository in CodeCommit (if it doe
 3. Create a policy e.g `AwsCodeCommitMirroring` and attach this policy to the group `Devops`
 
 This is the minimum permission required to make it work
+
 ``` json
 {
     "Version": "2012-10-17",
@@ -76,7 +80,7 @@ Use the `cron` parameter to configure the schedule, [Crontab Guru](https://cront
 
 ### 2.4 Output
 
-```
+```txt
 ...
 > Processing repository: spring-tdd-experiments
 --> Cloning repository spring-tdd-experiments to local storage
